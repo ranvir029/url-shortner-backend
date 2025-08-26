@@ -1,9 +1,18 @@
-// urlModel.js
 const mongoose = require("mongoose");
-require("dotenv").config(); // .env se URI read karne ke liye
+require("dotenv").config(); // Load .env
 
-// MongoDB Atlas se connect
-mongoose.connect(process.env.MONGODB_URL);
+// Connect to MongoDB Atlas
+mongoose.connect(process.env.MONGODB_URL, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+})
+.then(() => console.log("MongoDB connected successfully!"))
+.catch((err) => console.error("MongoDB connection error:", err));
+
+// Optional: confirm connection
+mongoose.connection.once("open", () => {
+  console.log("MongoDB connection open, ready to use models!");
+});
 
 // URL Schema
 const urlSchema = mongoose.Schema({
